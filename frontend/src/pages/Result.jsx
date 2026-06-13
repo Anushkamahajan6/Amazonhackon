@@ -138,7 +138,7 @@ export default function Result() {
           </button>
 
           <button
-            onClick={() => alert("Return Submitted Successfully")}
+            onClick={() => navigate("/my-returns")}
             className="bg-[#FF9900] text-black px-8 py-3 rounded-lg font-semibold hover:bg-[#e88a00]"
           >
             Submit Return Request
