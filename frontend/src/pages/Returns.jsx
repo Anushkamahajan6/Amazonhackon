@@ -41,10 +41,10 @@ export default function Returns() {
       </h1>
 
       <div className="mb-6">
-  <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-medium">
-    Pending Reviews: {returnsData.length}
-  </span>
-</div>
+        <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-medium">
+          Pending Reviews: {returnsData.length}
+        </span>
+      </div>
 
       <div className="bg-white rounded-xl shadow-sm overflow-hidden">
         <table className="w-full">
@@ -174,16 +174,14 @@ export default function Returns() {
                 </span>
               </div>
               {selectedReturn.overrideReason && (
-  <div>
-    <p className="text-gray-500">
-      Override Reason
-    </p>
+                <div>
+                  <p className="text-gray-500">Override Reason</p>
 
-    <p className="mt-2 text-orange-600">
-      {selectedReturn.overrideReason}
-    </p>
-  </div>
-)}
+                  <p className="mt-2 text-orange-600">
+                    {selectedReturn.overrideReason}
+                  </p>
+                </div>
+              )}
 
               <div>
                 <p className="text-gray-500">AI Reasoning</p>
@@ -202,28 +200,28 @@ export default function Returns() {
               <div className="flex gap-3 pt-4">
                 <button
                   onClick={() => {
-  setReturnsData(
-    returnsData.filter(
-      (item) => item.id !== selectedReturn.id
-    )
-  );
+                    setReturnsData(
+                      returnsData.filter(
+                        (item) => item.id !== selectedReturn.id,
+                      ),
+                    );
 
-  setSelectedReturn(null);
-}}
+                    setSelectedReturn(null);
+                  }}
                   className="flex-1 bg-green-600 text-white py-3 rounded-lg"
                 >
                   Approve
                 </button>
 
                 <button
-  onClick={() => {
-    setOverrideItem(selectedReturn);
-    setShowOverride(true);
-  }}
-  className="flex-1 bg-orange-500 text-white py-3 rounded-lg"
->
-  Override Decision
-</button>
+                  onClick={() => {
+                    setOverrideItem(selectedReturn);
+                    setShowOverride(true);
+                  }}
+                  className="flex-1 bg-orange-500 text-white py-3 rounded-lg"
+                >
+                  Override Decision
+                </button>
               </div>
             </div>
 
@@ -284,34 +282,34 @@ export default function Returns() {
                       Cancel
                     </button>
 
-                   <button
-  onClick={() => {
-    setReturnsData(
-      returnsData.map((item) =>
-        item.id === overrideItem.id
-          ? {
-              ...item,
-              decision: newDecision,
-              overrideReason,
-            }
-          : item
-      )
-    );
+                    <button
+                      onClick={() => {
+                        setReturnsData(
+                          returnsData.map((item) =>
+                            item.id === overrideItem.id
+                              ? {
+                                  ...item,
+                                  decision: newDecision,
+                                  overrideReason,
+                                }
+                              : item,
+                          ),
+                        );
 
-    setSelectedReturn({
-      ...overrideItem,
-      decision: newDecision,
-      overrideReason,
-    });
+                        setSelectedReturn({
+                          ...overrideItem,
+                          decision: newDecision,
+                          overrideReason,
+                        });
 
-    setShowOverride(false);
-    setOverrideReason("");
-    setNewDecision("");
-  }}
-  className="flex-1 bg-[#FF9900] text-white rounded-lg py-3"
->
-  Confirm Override
-</button>
+                        setShowOverride(false);
+                        setOverrideReason("");
+                        setNewDecision("");
+                      }}
+                      className="flex-1 bg-[#FF9900] text-white rounded-lg py-3"
+                    >
+                      Confirm Override
+                    </button>
                   </div>
                 </div>
               </div>
