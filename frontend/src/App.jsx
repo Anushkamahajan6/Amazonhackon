@@ -17,6 +17,7 @@ import ReturnRequest from "./pages/ReturnRequest";
 import Analyzing from "./pages/Analyzing";
 import Result from "./pages/Result";
 import AdminLayout from "./layouts/AdminLayout";
+import Marketplace from "./pages/Marketplace";
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
               <Route path="/return" element={<ReturnRequest />} />
               <Route path="/orders" element={<Orders />} />
               <Route path="/home" element={<Home />} />
-
+              <Route path="/marketplace" element={<Marketplace />} /> 
 
         <Route element={<AdminLayout />}>
           <Route path="/" element={<Dashboard />} />

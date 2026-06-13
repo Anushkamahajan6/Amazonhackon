@@ -1,5 +1,6 @@
 const Item = require("../models/Item");
 
+// Get all marketplace items
 const getMarketplaceItems = async (req, res) => {
 
   try {
@@ -27,6 +28,35 @@ const getMarketplaceItems = async (req, res) => {
 
 };
 
+// Get item by ID
+const getItemById = async (req, res) => {
+
+  try {
+
+    const item = await Item.findById(req.params.itemId);
+
+    if (!item) {
+
+      return res.status(404).json({
+        message: "Item not found"
+      });
+
+    }
+
+    res.json(item);
+
+  }
+  catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};
+
 module.exports = {
-  getMarketplaceItems
+  getMarketplaceItems,
+  getItemById
 };

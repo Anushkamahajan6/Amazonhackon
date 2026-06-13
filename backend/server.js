@@ -8,6 +8,7 @@ const creditRoutes = require("./routes/creditRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
 const marketplaceListingRoutes = require("./routes/marketplaceListingRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 
@@ -28,6 +29,8 @@ app.use("/api/admin/analytics", analyticsRoutes);
 app.use("/api/recommendations", recommendationRoutes);
 
 app.use("/api/listings", marketplaceListingRoutes);
+
+app.use("/api/users", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend Running...");
