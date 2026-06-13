@@ -1,21 +1,37 @@
-const express=require('express');
-const cors=require('cors');
-const app=express();
-const port=5000;
+const express = require("express");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
-app.use(cors());
+const returnRoutes = require("./routes/returnRoutes");
+const marketplaceRoutes = require("./routes/marketplaceRoutes");
+const creditRoutes = require("./routes/creditRoutes");
+const analyticsRoutes = require("./routes/analyticsRoutes");
+const recommendationRoutes = require("./routes/recommendationRoutes");
+
+dotenv.config();
+
+connectDB();
+
+const app = express();
 
 app.use(express.json());
+
+app.use("/api/returns", returnRoutes);
+
+app.use("/api/marketplace", marketplaceRoutes);
+
+app.use("/api/credits", creditRoutes);
+
+app.use("/api/admin/analytics", analyticsRoutes);
+
+app.use("/api/recommendations", recommendationRoutes);
+
 app.get("/", (req, res) => {
-  res.send("Second Life Commerce API");
+  res.send("Backend Running...");
 });
 
-app.get("/health", (req, res) => {
-  res.json({
-    status: "running",
-  });
-});
+const PORT = process.env.PORT || 5000;
 
-app.listen(5000, () => {
-  console.log("Server running on port 5000");
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
