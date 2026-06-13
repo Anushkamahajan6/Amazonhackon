@@ -16,16 +16,11 @@ import Orders from "./pages/Orders";
 import ReturnRequest from "./pages/ReturnRequest";
 import Analyzing from "./pages/Analyzing";
 import Result from "./pages/Result";
+import AdminLayout from "./layouts/AdminLayout";
 
 function App() {
   return (
     <BrowserRouter>
-      <div className="flex">
-        <Sidebar />
-        <div className="flex-1 flex flex-col">
-          <Topbar />
-
-          <main className="p-6 bg-gray-100 min-h-screen">
             <Routes>
                {/* Customer Routes */}
               <Route path="/result" element={<Result />} />
@@ -34,14 +29,14 @@ function App() {
               <Route path="/orders" element={<Orders />} />
               <Route path="/home" element={<Home />} />
 
-                {/* Admin Routes */}
-              <Route path="/" element={<Dashboard />} />
-              <Route path="/returns" element={<Returns />} />
-              <Route path="/trust" element={<Trust />} />
+
+        <Route element={<AdminLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/trust" element={<Trust />} />
+        </Route>
             </Routes>
-          </main>
-        </div>
-      </div>
+      
     </BrowserRouter>
   );
 }
