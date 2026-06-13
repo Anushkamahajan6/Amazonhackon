@@ -11,6 +11,9 @@ import Dashboard from "./pages/Dashboard";
 import Returns from "./pages/Returns";
 import Trust from "./pages/Trust";
 import Topbar from "./components/Topbar";
+import Home from "./pages/Home";
+import Orders from "./pages/Orders";
+import ReturnRequest from "./pages/ReturnRequest";
 
 function App() {
   return (
@@ -22,6 +25,9 @@ function App() {
 
           <main className="p-6 bg-gray-100 min-h-screen">
             <Routes>
+              <Route path="/return" element={<ReturnRequest />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/home" element={<Home />} />
               <Route path="/" element={<Dashboard />} />
               <Route path="/returns" element={<Returns />} />
               <Route path="/trust" element={<Trust />} />
