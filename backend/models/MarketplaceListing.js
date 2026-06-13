@@ -1,28 +1,34 @@
 const mongoose = require("mongoose");
 
-const marketplaceSchema = new mongoose.Schema(
+const marketplaceListingSchema = new mongoose.Schema(
 {
     itemId:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:"Item"
+        ref:"Item",
+        required:true
+    },
+
+    sellerId:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"User"
     },
 
     grade:{
         type:String
     },
 
-    price:{
+    listingPrice:{
         type:Number
     },
 
     ecoBadge:{
-        type:Boolean,
-        default:true
+        type:String,
+        default:"Certified Refurbished"
     },
 
     status:{
         type:String,
-        default:"Available"
+        default:"ACTIVE"
     }
 },
 {
@@ -31,6 +37,6 @@ const marketplaceSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model(
-"MarketplaceListing",
-marketplaceSchema
+    "MarketplaceListing",
+    marketplaceListingSchema
 );

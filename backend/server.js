@@ -7,6 +7,7 @@ const marketplaceRoutes = require("./routes/marketplaceRoutes");
 const creditRoutes = require("./routes/creditRoutes");
 const analyticsRoutes = require("./routes/analyticsRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
+const marketplaceListingRoutes = require("./routes/marketplaceListingRoutes");
 
 dotenv.config();
 
@@ -25,6 +26,8 @@ app.use("/api/credits", creditRoutes);
 app.use("/api/admin/analytics", analyticsRoutes);
 
 app.use("/api/recommendations", recommendationRoutes);
+
+app.use("/api/listings", marketplaceListingRoutes);
 
 app.get("/", (req, res) => {
   res.send("Backend Running...");
