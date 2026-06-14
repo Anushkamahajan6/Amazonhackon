@@ -3,41 +3,48 @@ import { useNavigate } from "react-router-dom";
 export default function Orders() {
   const navigate = useNavigate();
 
-  const orders = [
-    {
-      id: 1,
-      name: "iPhone 13",
-      orderId: "A67B34E2F",
-      delivered: "12 June 2026",
-      price: "₹52,000",
-      image: "📱",
-    },
-    {
-      id: 2,
-      name: "Boat Headphones",
-      orderId: "B82K45G9M",
-      delivered: "5 June 2026",
-      price: "₹1,999",
-      image: "🎧",
-    },
-    {
-      id: 3,
-      name: "Dell Laptop",
-      orderId: "C78L90MN2",
-      delivered: "28 May 2026",
-      price: "₹68,000",
-      image: "💻",
-    },
-    {
-      id: 4,
-      name: "Samsung Monitor",
-      orderId: "D34RT56HJ",
-      delivered: "18 May 2026",
-      price: "₹14,999",
-      image: "🖥️",
-    },
-  ];
-
+    const orders = [
+  {
+    id: 1,
+    name: "iPhone 13",
+    orderId: "A67B34E2F",
+    delivered: "12 June 2026",
+    price: "₹52,000",
+    grade: "A",
+    status: "Delivered",
+    image: "📱",
+  },
+  {
+    id: 2,
+    name: "Boat Headphones",
+    orderId: "B82K45G9M",
+    delivered: "5 June 2026",
+    price: "₹1,999",
+    grade: "A",
+    status: "Delivered",
+    image: "🎧",
+  },
+  {
+    id: 3,
+    name: "Dell Laptop",
+    orderId: "C78L90MN2",
+    delivered: "28 May 2026",
+    price: "₹68,000",
+    grade: "B",
+    status: "Delivered",
+    image: "💻",
+  },
+  {
+    id: 4,
+    name: "Samsung Monitor",
+    orderId: "D34RT56HJ",
+    delivered: "18 May 2026",
+    price: "₹14,999",
+    grade: "A",
+    status: "Delivered",
+    image: "🖥️",
+  },
+];
   return (
     <div className="min-h-screen bg-[#F2F3F3] p-8">
 
@@ -78,6 +85,17 @@ export default function Orders() {
                 <p className="font-bold mt-2">
                   {order.price}
                 </p>
+                <div className="mt-3 flex gap-3">
+
+  <span className="bg-green-500 text-white px-3 py-1 rounded-full text-sm">
+    Grade {order.grade}
+  </span>
+
+  <span className="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">
+    {order.status}
+  </span>
+
+</div>
               </div>
 
             </div>

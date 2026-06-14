@@ -65,6 +65,17 @@ const ProductCard = ({ product }) => {
         <div className="mt-3 text-blue-600 font-medium text-sm">
           ✓ Certified Refurbished
         </div>
+        <div className="mt-2">
+        <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-semibold">
+        Trust Score: 92
+        </span>
+        </div>
+
+        <div className="mt-2">
+        <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-xs font-semibold">
+        🤖 Recommended by AI
+        </span>
+        </div>
 
         {/* Prime Badge */}
         <div className="mt-2">

@@ -1,8 +1,12 @@
 import { CheckCircle, Award, Leaf } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function Result() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state?.result;
+  const item = data?.returnedItem;
 
   return (
     <div className="min-h-screen bg-[#F2F3F3] flex items-center justify-center p-8">
@@ -39,7 +43,7 @@ export default function Result() {
             </p>
 
             <span className="bg-yellow-100 text-yellow-700 px-4 py-2 rounded-full font-semibold">
-              Grade B
+              Grade {item?.conditionGrade}
             </span>
 
           </div>
@@ -51,7 +55,7 @@ export default function Result() {
             </p>
 
             <span className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full font-semibold">
-              Refurbish
+              {item?.disposition}
             </span>
 
           </div>
@@ -65,7 +69,7 @@ export default function Result() {
           <div className="bg-white border rounded-xl p-6 text-center">
 
             <h2 className="text-3xl font-bold text-[#131921]">
-              ₹49,500
+              ₹{item?.suggestedResalePrice}
             </h2>
 
             <p className="text-gray-500 mt-2">
@@ -82,7 +86,7 @@ export default function Result() {
             />
 
             <h2 className="text-3xl font-bold">
-              120
+              {item?.creditsEarned}
             </h2>
 
             <p className="text-gray-500">
@@ -99,7 +103,7 @@ export default function Result() {
             />
 
             <h2 className="text-3xl font-bold">
-              12kg
+              {item?.co2Saved}kg
             </h2>
 
             <p className="text-gray-500">
@@ -119,9 +123,7 @@ export default function Result() {
           </h2>
 
           <p className="text-gray-700 leading-relaxed">
-            The product appears functional but shows signs of wear.
-            Based on image analysis and condition scoring,
-            refurbishment is recommended before resale.
+            {item?.reasoning}
           </p>
 
         </div>

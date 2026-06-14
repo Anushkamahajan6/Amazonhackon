@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Upload } from "lucide-react";
 import { useState } from "react";
@@ -12,6 +13,35 @@ export default function ReturnRequest() {
   const [comments, setComments] = useState("");
   const [image, setImage] = useState(null);
 
+  const handleSubmit = async () => {
+    try {
+      const formData = new FormData();
+
+      formData.append("userId", "123456"); // temporary
+      formData.append("itemId", order.id);
+      formData.append("reason", reason);
+
+      if (image) {
+        formData.append("image", image);
+      }
+
+      const response = await axios.post(
+        "http://localhost:5000/api/returns",
+        formData
+      );
+
+      console.log(response.data);
+
+      navigate("/analyzing", {
+  state: {
+    result: response.data
+  }
+});
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#F2F3F3] p-8">
 
@@ -24,7 +54,6 @@ export default function ReturnRequest() {
       </p>
 
       {/* Product Card */}
-
       <div className="bg-white rounded-2xl p-6 shadow-sm mb-8">
 
         <h2 className="text-2xl font-bold mb-4">
@@ -58,7 +87,6 @@ export default function ReturnRequest() {
       </div>
 
       {/* Return Form */}
-
       <div className="bg-white rounded-2xl p-6 shadow-sm">
 
         <h2 className="text-2xl font-bold mb-6">
@@ -66,7 +94,6 @@ export default function ReturnRequest() {
         </h2>
 
         {/* Reason */}
-
         <div className="mb-6">
 
           <label className="block mb-2 font-medium">
@@ -103,7 +130,6 @@ export default function ReturnRequest() {
         </div>
 
         {/* Upload */}
-
         <div className="mb-6">
 
           <label className="block mb-2 font-medium">
@@ -121,9 +147,7 @@ export default function ReturnRequest() {
             <input
               type="file"
               className="hidden"
-              onChange={(e) =>
-                setImage(e.target.files[0])
-              }
+              onChange={(e) => setImage(e.target.files[0])}
             />
 
           </label>
@@ -137,7 +161,6 @@ export default function ReturnRequest() {
         </div>
 
         {/* Comments */}
-
         <div className="mb-8">
 
           <label className="block mb-2 font-medium">
@@ -147,9 +170,7 @@ export default function ReturnRequest() {
           <textarea
             rows={4}
             value={comments}
-            onChange={(e) =>
-              setComments(e.target.value)
-            }
+            onChange={(e) => setComments(e.target.value)}
             className="w-full border rounded-lg p-3"
             placeholder="Describe the issue..."
           />
@@ -157,7 +178,7 @@ export default function ReturnRequest() {
         </div>
 
         <button
-          onClick={() => navigate("/analyzing")}
+          onClick={handleSubmit}
           className="bg-[#FF9900] text-black px-8 py-4 rounded-lg font-semibold"
         >
           Analyze Product

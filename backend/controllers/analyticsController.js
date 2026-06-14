@@ -44,14 +44,16 @@ const getChartData = async (req, res) => {
     const returns = await Return.find();
 
     let totalCO2Saved = 0;
+let recoveredRevenue = 0;
 
-    let resellCount = 0;
-    let refurbishCount = 0;
-    let recycleCount = 0;
+let resellCount = 0;
+let refurbishCount = 0;
+let recycleCount = 0;
 
     returns.forEach(item => {
 
       totalCO2Saved += item.co2Saved || 0;
+      recoveredRevenue += item.suggestedResalePrice || 0;
 
       if (item.disposition === "Resell") {
         resellCount++;
@@ -70,7 +72,7 @@ const getChartData = async (req, res) => {
       totalReturns: returns.length,
 
       totalCO2Saved,
-
+      recoveredRevenue,
       dispositionStats: {
         Resell: resellCount,
         Refurbish: refurbishCount,

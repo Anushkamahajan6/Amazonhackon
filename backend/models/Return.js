@@ -16,21 +16,59 @@ const returnSchema = new mongoose.Schema(
         type:String
     },
 
+    image:{
+        type:String
+    },
+
+    // AI Output
     conditionGrade:{
         type:String
     },
+
+    conditionScore:{
+        type:Number
+    },
+
+    damageFindings:[
+        String
+    ],
 
     disposition:{
         type:String
     },
 
+    recommendation:{
+        type:String
+    },
+
+    riskScore:{
+        type:Number
+    },
+    
+    reasoning:{
+        type:String
+    },
+
+    suggestedResalePrice:{
+        type:Number
+    },
+
+    estimatedRefurbCost:{
+        type:Number
+    },
+
     co2Saved:{
         type:Number
+    },
+
+    creditsEarned:{
+        type:Number
     }
+
 },
 {
     timestamps:true
 }
 );
 
-module.exports = mongoose.model("Return",returnSchema);
+module.exports = mongoose.model("Return", returnSchema);
