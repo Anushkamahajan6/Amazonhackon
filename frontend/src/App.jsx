@@ -14,6 +14,7 @@ import Result from "./pages/Result";
 import Marketplace from "./pages/Marketplace";
 import AdminRoute from "./components/AdminRoute";
 import AdminLayout from "./layouts/AdminLayout";
+import LandingPage from "./pages/LandingPage";
 
 function App() {
   return (
@@ -28,19 +29,19 @@ function App() {
         <Route path="/result" element={<Result />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/my-returns" element={<MyReturns />} />
-
+        <Route path="/landing" element={<LandingPage />} />
         {/* Admin Routes */}
-       <Route
-  element={
-    <AdminRoute>
-      <AdminLayout />
-    </AdminRoute>
-  }
->
-  <Route path="/dashboard" element={<Dashboard />} />
-  <Route path="/returns" element={<Returns />} />
-  <Route path="/trust" element={<Trust />} />
-</Route>
+        <Route
+          element={
+            <AdminRoute>
+              <AdminLayout />
+            </AdminRoute>
+          }
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/returns" element={<Returns />} />
+          <Route path="/trust" element={<Trust />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );
