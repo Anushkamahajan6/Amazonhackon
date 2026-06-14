@@ -8,39 +8,96 @@ export default function ReturnRequest() {
   const navigate = useNavigate();
 
   const order = location.state?.order;
+  console.log(order);
+  if (!order) {
+  return (
+    <div className="p-10 text-center">
+      <h1 className="text-2xl font-bold text-red-600">
+        No order selected
+      </h1>
 
+      <button
+        className="mt-6 bg-[#FF9900] px-6 py-3 rounded-lg"
+        onClick={() => navigate("/orders")}
+      >
+        Back to Orders
+      </button>
+    </div>
+  );
+}
+  console.log("Order:", order);
+console.log("Location state:", location.state);
   const [reason, setReason] = useState("");
   const [comments, setComments] = useState("");
   const [image, setImage] = useState(null);
 
-  const handleSubmit = async () => {
-    try {
-      const formData = new FormData();
+const handleSubmit = async () => {
 
-      formData.append("userId", "123456"); // temporary
-      formData.append("itemId", order.id);
-      formData.append("reason", reason);
+  try {
 
-      if (image) {
-        formData.append("image", image);
-      }
-
-      const response = await axios.post(
-        "http://localhost:5000/api/returns",
-        formData
-      );
-
-      console.log(response.data);
-
-      navigate("/analyzing", {
-  state: {
-    result: response.data
-  }
-});
-    } catch (error) {
-      console.log(error);
+    if (!order) {
+      alert("Order data missing");
+      return;
     }
-  };
+
+    const formData = new FormData();
+
+    formData.append(
+  "userId",
+  "684d6b4c0f6c4f8b0e9f1234"
+);
+
+    formData.append(
+      "itemId",
+      order.id || order._id
+    );
+
+    formData.append(
+      "reason",
+      reason
+    );
+
+    if (image) {
+      formData.append(
+        "image",
+        image
+      );
+    }
+
+    console.log("Sending request...");
+    console.log("itemId =", order.id || order._id);
+
+    const response = await axios.post(
+      "http://localhost:5000/api/returns",
+      formData
+    );
+
+    console.log("Response received");
+    console.log(response.data);
+
+    alert("API Success");
+
+    navigate("/analyzing", {
+      state: {
+        result: response.data
+      }
+    });
+
+  }
+
+  catch (error) {
+
+    console.log("ERROR");
+
+    console.log(error);
+
+    console.log(error.response);
+
+    alert("Error occurred");
+
+  }
+
+};
 
   return (
     <div className="min-h-screen bg-[#F2F3F3] p-8">

@@ -24,17 +24,20 @@ export default function Orders() {
         const res = await axios.get(`${API_BASE}/api/marketplace`);
 
         const items = res.data.map((item) => ({
-          id:        item._id,
-          name:      item.name,
-          category:  item.category,
-          orderId:   item._id.slice(-8).toUpperCase(),
-          delivered: new Date(item.createdAt).toLocaleDateString("en-IN", {
-            day: "numeric", month: "long", year: "numeric",
-          }),
-          price:     `₹${item.originalPrice.toLocaleString("en-IN")}`,
-          image:     EMOJI_MAP[item.category] || "📦",
-          description: item.description || "",
-        }));
+  _id: item._id,          // add this
+  id: item._id,
+  name: item.name,
+  category: item.category,
+  orderId: item._id.slice(-8).toUpperCase(),
+  delivered: new Date(item.createdAt).toLocaleDateString("en-IN", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  }),
+  price: `₹${item.originalPrice.toLocaleString("en-IN")}`,
+  image: EMOJI_MAP[item.category] || "📦",
+  description: item.description || "",
+}));
 
         setOrders(items);
       } catch (error) {
@@ -131,11 +134,17 @@ export default function Orders() {
               </div>
 
               <button
-                onClick={() => navigate("/return", { state: { order } })}
-                className="bg-[#FF9900] hover:bg-[#e88a00] text-black px-5 py-3 rounded-xl font-semibold text-sm transition whitespace-nowrap"
-              >
-                Return Item
-              </button>
+  onClick={() => {
+    console.log("Sending order:", order);
+
+    navigate("/return", {
+      state: { order }
+    });
+  }}
+  className="bg-[#FF9900] hover:bg-[#e88a00] text-black px-5 py-3 rounded-xl font-semibold text-sm transition whitespace-nowrap"
+>
+  Return Item
+</button>
 
             </div>
           ))

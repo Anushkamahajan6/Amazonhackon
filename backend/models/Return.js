@@ -56,14 +56,18 @@ const returnSchema = new mongoose.Schema(
     estimatedRefurbCost:{
         type:Number
     },
+co2Saved:{
+    type:Number
+},
 
-    co2Saved:{
-        type:Number
-    },
+creditsEarned:{
+    type:Number
+},
 
-    creditsEarned:{
-        type:Number
-    }
+status:{
+    type:String,
+    default:"Pending"
+}
 
 },
 {

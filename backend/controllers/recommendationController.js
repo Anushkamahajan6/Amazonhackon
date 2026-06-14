@@ -9,13 +9,17 @@ const getRecommendations = async (req, res) => {
         res.json(items);
 
     }
-    catch(error){
+    catch (error) {
 
-        res.status(500).json({
-            message:error.message
-        });
+  console.log("ERROR IN CREATE RETURN");
 
-    }
+  console.log(error);
+
+  res.status(500).json({
+    message: error.message
+  });
+
+}
 
 };
 

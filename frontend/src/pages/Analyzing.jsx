@@ -1,9 +1,12 @@
-    import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+   import { useEffect } from "react";
+import {
+  useNavigate,
+  useLocation
+} from "react-router-dom";
 
 export default function Analyzing() {
   const navigate = useNavigate();
-
+  const location = useLocation();
   useEffect(() => {
     const timer = setTimeout(() => {
       navigate("/result", {
@@ -12,7 +15,7 @@ export default function Analyzing() {
     }, 4000);
 
     return () => clearTimeout(timer);
-  }, [navigate]);
+  }, [navigate, location]);
 
   return (
     <div className="min-h-screen bg-[#F2F3F3] flex items-center justify-center">

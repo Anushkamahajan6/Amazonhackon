@@ -1,8 +1,10 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
 const axios = require("axios");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+console.log("KEY =", process.env.GEMINI_API_KEY);
+console.log(process.env.GEMINI_API_KEY);
 
 const genAI = new GoogleGenerativeAI(
-  process.env.GEMINI_API_KEY
+  "AIzaSyBUPdk8zFBYQYo7DhdW9Bp2QRZWACCF63g"
 );
 
 const analyzeReturn = async (
@@ -11,11 +13,9 @@ const analyzeReturn = async (
 ) => {
 
   try {
-
-    const model = genAI.getGenerativeModel({
-      model: "gemini-1.5-flash"
-    });
-
+const model = genAI.getGenerativeModel({
+  model: "gemini-2.5-flash"
+});
     let imagePart = null;
 
     if (imageUrl) {
@@ -64,7 +64,7 @@ Disposition:
 
 A -> Resell
 B -> Refurbish
-C -> Donate
+C -> Recycle
 D -> Recycle
 
 Return ONLY JSON:

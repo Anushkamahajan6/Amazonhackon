@@ -1,6 +1,6 @@
+require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const connectDB = require("./config/db");
 
 const returnRoutes = require("./routes/returnRoutes");
@@ -10,8 +10,6 @@ const analyticsRoutes = require("./routes/analyticsRoutes");
 const recommendationRoutes = require("./routes/recommendationRoutes");
 const marketplaceListingRoutes = require("./routes/marketplaceListingRoutes");
 const userRoutes = require("./routes/userRoutes");
-
-dotenv.config();
 
 connectDB();
 

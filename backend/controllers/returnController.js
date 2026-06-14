@@ -62,7 +62,7 @@ const createReturn = async (req, res) => {
   itemId,
   reason
 } = req.body;
-
+console.log(req.file);
 const image =
   req.file?.path || "";
 
@@ -101,22 +101,22 @@ const recommendation =
       disposition = "Recycle";
     }
     */
+    console.log("itemId =", itemId);
     const item = await Item.findById(itemId);
+    console.log("ITEM =", item);
 
     if (!item) {
 
-      return res.status(404).json({
-        message: "Item not found"
-      });
+  console.log("Item not found, using default values");
 
-    }
+}
 
     const creditsEarned = calculateGreenCredits(
       conditionGrade,
       disposition,
-      item.originalPrice
+      item?.originalPrice || 1000
     );
-
+    console.log("userId =", userId);
     const user = await User.findById(userId);
 
     if (user) {
@@ -126,13 +126,13 @@ const recommendation =
       await user.save();
 
     }
-
+    console.log("Creating credit transaction...");
     await CreditTransaction.create({
       userId,
       amount: creditsEarned,
       type: "ADD"
     });
-
+    console.log("Creating return document...");
     const returnedItem = await Return.create({
   userId,
   itemId,
@@ -155,6 +155,7 @@ const recommendation =
   co2Saved,
   creditsEarned
 });
+    console.log("Sending response...");
     res.status(201).json({
       returnedItem,
       creditsEarned
@@ -170,18 +171,18 @@ const recommendation =
   }
 
 };
-
 const getAllReturns = async (req, res) => {
 
   try {
 
     const returns = await Return.find()
-      .populate("userId")
-      .populate("itemId");
-
+      .populate("itemId")
+      .populate("userId");
+    console.log(returns);
     res.json(returns);
 
   }
+
   catch (error) {
 
     res.status(500).json({
@@ -191,9 +192,8 @@ const getAllReturns = async (req, res) => {
   }
 
 };
-
 // Get Return Status
-const getReturnStatus = async (req, res) => {
+  const getReturnStatus = async (req, res) => {
 
   try {
 
