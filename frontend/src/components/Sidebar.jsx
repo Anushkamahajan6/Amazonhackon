@@ -7,7 +7,7 @@ function Sidebar() {
   const menuItems = [
     {
       name: "Dashboard",
-      path: "/",
+      path: "/dashboard",
       icon: <LayoutDashboard size={20} />,
     },
     {
