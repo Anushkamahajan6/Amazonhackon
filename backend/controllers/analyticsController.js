@@ -53,33 +53,65 @@ const getChartData = async (req, res) => {
 
     const returns = await Return.find();
 
-    let totalCO2Saved  = 0;
-    let resellCount    = 0;
+    let totalCO2Saved = 0;
+    let recoveredRevenue = 0;
+
+    let resellCount = 0;
     let refurbishCount = 0;
-    let recycleCount   = 0;
+    let recycleCount = 0;
 
     returns.forEach(item => {
+
       totalCO2Saved += item.co2Saved || 0;
-      if      (item.disposition === "Resell")    resellCount++;
-      else if (item.disposition === "Refurbish") refurbishCount++;
-      else if (item.disposition === "Recycle")   recycleCount++;
+
+      recoveredRevenue +=
+        item.suggestedResalePrice || 0;
+
+      if (item.disposition === "Resell") {
+        resellCount++;
+      }
+
+      else if (item.disposition === "Refurbish") {
+        refurbishCount++;
+      }
+
+      else if (item.disposition === "Recycle") {
+        recycleCount++;
+      }
+
     });
 
     res.json({
+
       totalReturns: returns.length,
+
       totalCO2Saved,
+
+      recoveredRevenue,
+
       dispositionStats: {
-        Resell:    resellCount,
+
+        Resell: resellCount,
+
         Refurbish: refurbishCount,
-        Recycle:   recycleCount
+
+        Recycle: recycleCount
+
       }
+
     });
 
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
-};
 
+  catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};
 module.exports = {
   getAnalytics,
   getChartData

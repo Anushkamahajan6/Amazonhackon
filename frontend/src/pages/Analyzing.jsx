@@ -6,7 +6,9 @@ export default function Analyzing() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/result");
+      navigate("/result", {
+  state: location.state
+});
     }, 4000);
 
     return () => clearTimeout(timer);

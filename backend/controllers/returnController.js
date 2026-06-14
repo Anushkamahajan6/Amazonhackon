@@ -2,6 +2,9 @@ const Return = require("../models/Return");
 const Item = require("../models/Item");
 const User = require("../models/User");
 const CreditTransaction = require("../models/CreditTransaction");
+const { analyzeReturn } = require("../services/returnAIService");
+const { getRecommendation } = require("../services/dispositionService");
+const { getRiskScore } = require("../services/riskScoreService");
 
 const calculateGreenCredits = (
   conditionGrade,
@@ -54,15 +57,39 @@ const createReturn = async (req, res) => {
 
   try {
 
-    const {
-      userId,
-      itemId,
-      reason,
-      conditionGrade,
-      co2Saved
-    } = req.body;
+   const {
+  userId,
+  itemId,
+  reason
+} = req.body;
 
-    let disposition;
+const image =
+  req.file?.path || "";
+
+const aiResult =
+  await analyzeReturn(
+    reason,
+    image
+  );
+console.log("AI Result:", aiResult);
+
+const {
+  conditionGrade,
+  conditionScore,
+  damageFindings,
+  disposition,
+  reasoning,
+  suggestedResalePrice,
+  estimatedRefurbCost,
+  co2Saved
+} = aiResult;
+
+const recommendation =
+  getRecommendation(disposition);
+
+  const riskScore = getRiskScore(reason);
+
+   /* let disposition;
 
     if (conditionGrade === "A") {
       disposition = "Resell";
@@ -73,7 +100,7 @@ const createReturn = async (req, res) => {
     else {
       disposition = "Recycle";
     }
-
+    */
     const item = await Item.findById(itemId);
 
     if (!item) {
@@ -107,18 +134,52 @@ const createReturn = async (req, res) => {
     });
 
     const returnedItem = await Return.create({
-      userId,
-      itemId,
-      reason,
-      conditionGrade,
-      disposition,
-      co2Saved
-    });
+  userId,
+  itemId,
+  reason,
+  image,
 
+  conditionGrade,
+  conditionScore,
+  damageFindings,
+
+  disposition,
+  recommendation,
+  riskScore,
+  
+  reasoning,
+
+  suggestedResalePrice,
+  estimatedRefurbCost,
+
+  co2Saved,
+  creditsEarned
+});
     res.status(201).json({
       returnedItem,
       creditsEarned
     });
+
+  }
+  catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+
+};
+
+const getAllReturns = async (req, res) => {
+
+  try {
+
+    const returns = await Return.find()
+      .populate("userId")
+      .populate("itemId");
+
+    res.json(returns);
 
   }
   catch (error) {
@@ -161,5 +222,6 @@ const getReturnStatus = async (req, res) => {
 
 module.exports = {
   createReturn,
+  getAllReturns,
   getReturnStatus
 };

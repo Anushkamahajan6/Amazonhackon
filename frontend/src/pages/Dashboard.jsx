@@ -159,13 +159,19 @@ export default function Dashboard() {
               {pieData.map((_, index) => (
                 <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
               ))}
+
             </Pie>
+
             <Tooltip />
+
             <Legend />
+
           </PieChart>
+
         </div>
 
         {/* Recent Returns */}
+
         <div className="bg-white rounded-xl p-6 shadow-sm">
           <h2 className="text-lg font-semibold mb-1">Recent Returns</h2>
           <p className="text-xs text-gray-400 mb-4">Latest 5 from database</p>
@@ -288,7 +294,10 @@ export default function Dashboard() {
             </div>
           )}
         </div>
+
       </div>
+
     </div>
   );
 }
+

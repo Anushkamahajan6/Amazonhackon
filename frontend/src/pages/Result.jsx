@@ -7,6 +7,9 @@ const API_BASE = "http://localhost:5000";
 
 export default function Result() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const data = location.state?.result;
+  const item = data?.returnedItem;
 
   const [result, setResult] = useState({
     grade: "...",

@@ -58,6 +58,80 @@ const getAIRecommendations = (userText, products) => {
 
 };
 
+
+// Return AI Service
+const analyzeReturn = async (
+  reason,
+  imageUrl
+) => {
+
+  switch (reason) {
+
+    case "Damaged Product":
+      return {
+        conditionGrade: "B",
+        conditionScore: 82,
+        damageFindings: ["Minor scratch"],
+        disposition: "Refurbish",
+        reasoning: "Cosmetic damage only",
+        suggestedResalePrice: 850,
+        estimatedRefurbCost: 100,
+        co2Saved: 3
+      };
+
+    case "Product Not Working":
+      return {
+        conditionGrade: "C",
+        conditionScore: 55,
+        damageFindings: ["Functional issue"],
+        disposition: "Recycle",
+        reasoning: "Device not functioning properly",
+        suggestedResalePrice: 300,
+        estimatedRefurbCost: 500,
+        co2Saved: 2
+      };
+
+    case "Wrong Item Received":
+      return {
+        conditionGrade: "A",
+        conditionScore: 95,
+        damageFindings: [],
+        disposition: "Resell",
+        reasoning: "Returned in good condition",
+        suggestedResalePrice: 1200,
+        estimatedRefurbCost: 0,
+        co2Saved: 5
+      };
+
+    case "No Longer Needed":
+      return {
+        conditionGrade: "A",
+        conditionScore: 98,
+        damageFindings: [],
+        disposition: "Resell",
+        reasoning: "Unused item suitable for resale",
+        suggestedResalePrice: 1300,
+        estimatedRefurbCost: 0,
+        co2Saved: 6
+      };
+
+    default:
+      return {
+        conditionGrade: "B",
+        conditionScore: 75,
+        damageFindings: [],
+        disposition: "Refurbish",
+        reasoning: "General wear and tear",
+        suggestedResalePrice: 700,
+        estimatedRefurbCost: 150,
+        co2Saved: 3
+      };
+
+  }
+
+};
+
 module.exports = {
-  getAIRecommendations
+  getAIRecommendations,
+  analyzeReturn
 };
