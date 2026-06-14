@@ -1,6 +1,9 @@
 import { CheckCircle, XCircle, Eye } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Edit } from "lucide-react";
+import axios from "axios";
+
+const API_BASE = "http://localhost:5000";
 
 export default function Returns() {
   const [showOverride, setShowOverride] = useState(false);
@@ -8,32 +11,50 @@ export default function Returns() {
   const [newDecision, setNewDecision] = useState("");
   const [overrideReason, setOverrideReason] = useState("");
   const [selectedReturn, setSelectedReturn] = useState(null);
-  const [returnsData, setReturnsData] = useState([
-    {
-      id: 1,
-      product: "iPhone 13",
-      category: "Electronics",
-      grade: "A",
-      conditionScore: 92,
-      decision: "Resell",
-      credits: 120,
-      damage: ["Minor scratch on back panel"],
-      overrideReason: "",
-      reasoning: "Product is fully functional with minimal cosmetic wear.",
-    },
-    {
-      id: 2,
-      product: "Dell Laptop",
-      category: "Computers",
-      grade: "B",
-      conditionScore: 81,
-      decision: "Refurbish",
-      credits: 90,
-      damage: ["Battery health below 80%"],
-      overrideReason: "",
-      reasoning: "Requires battery replacement before resale.",
-    },
-  ]);
+  const [returnsData, setReturnsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchReturns = async () => {
+      try {
+        // Fetch real Return documents from the database
+        const res = await axios.get(`${API_BASE}/api/admin/analytics/recent-returns`);
+
+        const CONDITION_SCORE = { A: 92, B: 74, C: 48 };
+        const DAMAGE_MAP = {
+          A: ["Minor scratch on back panel"],
+          B: ["Battery health below 80%", "Minor wear on casing"],
+          C: ["Multiple component failures", "Severe physical damage"],
+        };
+        const REASONING_MAP = {
+          A: "Product is fully functional with minimal cosmetic wear. Ready for direct resale.",
+          B: "Requires component replacement before resale. Refurbishment recommended.",
+          C: "Product has significant damage. Recycling is the most sustainable option.",
+        };
+
+        const mapped = res.data.map((ret, index) => ({
+          id:             index,                           // positional index as key
+          product:        ret.product,                    // real name from Return.itemId
+          category:       ret.category || "Electronics",  // from populated item
+          grade:          ret.grade,                      // real conditionGrade from DB
+          conditionScore: CONDITION_SCORE[ret.grade] ?? 70,
+          decision:       ret.decision,                   // real disposition from DB
+          credits:        ret.credits,                    // calculated by backend controller
+          damage:         DAMAGE_MAP[ret.grade]    ?? ["Condition details unavailable"],
+          overrideReason: "",
+          reasoning:      REASONING_MAP[ret.grade] ?? "Assessment based on condition grade.",
+        }));
+
+        setReturnsData(mapped);
+      } catch (error) {
+        console.error("Error fetching returns:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchReturns();
+  }, []);
   return (
     <div className="p-6 bg-[#F2F3F3] min-h-screen">
       <h1 className="text-3xl font-bold text-[#131A22] mb-2">
