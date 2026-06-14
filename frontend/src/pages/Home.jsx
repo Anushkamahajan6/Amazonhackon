@@ -1,27 +1,66 @@
 import { Package, Award, Leaf, Search, Bell } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
+
+const API_BASE = "http://localhost:5000";
+
+const EMOJI_MAP = {
+  Electronics: "📱",
+  Fashion: "👟",
+  Furniture: "🪑",
+};
 
 export default function Home() {
   const navigate = useNavigate();
 
-  const recentOrders = [
-    {
-      id: 1,
-      name: "iPhone 13",
-      orderId: "A67B34E2F",
-      delivered: "2 days ago",
-      price: "₹52,000",
-      image: "📱",
-    },
-    {
-      id: 2,
-      name: "Boat Headphones",
-      orderId: "B82K45G9M",
-      delivered: "5 days ago",
-      price: "₹1,999",
-      image: "🎧",
-    },
-  ];
+  const [recentOrders, setRecentOrders] = useState([]);
+  const [sustainability, setSustainability] = useState({
+    totalReturns: 0,
+    totalCredits: 0,
+    totalCO2: 0,
+  });
+  const [userName, setUserName] = useState("User");
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [itemsRes, chartsRes, analyticsRes] = await Promise.all([
+          axios.get(`${API_BASE}/api/marketplace`),
+          axios.get(`${API_BASE}/api/admin/analytics/charts`),
+          axios.get(`${API_BASE}/api/admin/analytics`),
+        ]);
+
+        const items = itemsRes.data.slice(0, 2).map((item, index) => ({
+          id: item._id,
+          name: item.name,
+          orderId: item._id.slice(-9).toUpperCase(),
+          delivered: new Date(item.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          }),
+          price: `₹${item.originalPrice.toLocaleString("en-IN")}`,
+          image: EMOJI_MAP[item.category] || "📦",
+        }));
+
+        setRecentOrders(items);
+
+        setSustainability({
+          totalReturns: chartsRes.data.totalReturns || 0,
+          totalCredits: analyticsRes.data.totalCreditsIssued || 0,
+          totalCO2: chartsRes.data.totalCO2Saved || 0,
+        });
+      } catch (error) {
+        console.error("Error fetching home data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#F2F3F3]">
@@ -38,10 +77,10 @@ export default function Home() {
             <Bell className="text-white" />
 
             <div className="bg-[#FF9900] text-black w-10 h-10 rounded-full flex items-center justify-center font-bold">
-              AN
+              {userName.slice(0, 2).toUpperCase()}
             </div>
 
-            <span className="text-white font-medium">Anushka</span>
+            <span className="text-white font-medium">{userName}</span>
           </div>
         </div>
 
@@ -62,7 +101,7 @@ export default function Home() {
 
       <div className="px-8 mt-8">
         <div className="bg-gradient-to-r from-[#131921] to-[#1F3A56] rounded-2xl p-10 text-white shadow-lg">
-          <h1 className="text-5xl font-bold mb-4">Welcome Back, Anushka 👋</h1>
+          <h1 className="text-5xl font-bold mb-4">Welcome Back, {userName} 👋</h1>
 
           <p className="text-xl text-slate-200 mb-8 max-w-2xl">
             Manage returns and contribute to a sustainable future through Amazon
@@ -102,45 +141,51 @@ export default function Home() {
         </div>
 
         <div className="space-y-6">
-          {recentOrders.map((order) => (
-            <div
-              key={order.id}
-              className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-6"
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-6">
-                  <div className="w-24 h-24 bg-gray-100 rounded-xl flex items-center justify-center text-5xl">
-                    {order.image}
+          {loading ? (
+            <p className="text-gray-500">Loading orders...</p>
+          ) : recentOrders.length === 0 ? (
+            <p className="text-gray-500">No recent orders found.</p>
+          ) : (
+            recentOrders.map((order) => (
+              <div
+                key={order.id}
+                className="bg-white rounded-2xl shadow-sm hover:shadow-md transition p-6"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-6">
+                    <div className="w-24 h-24 bg-gray-100 rounded-xl flex items-center justify-center text-5xl">
+                      {order.image}
+                    </div>
+
+                    <div>
+                      <h3 className="text-xl font-bold">{order.name}</h3>
+
+                      <p className="text-gray-500 text-sm">
+                        Order #{order.orderId}
+                      </p>
+
+                      <p className="text-gray-500 text-sm mt-1">
+                        Delivered {order.delivered}
+                      </p>
+
+                      <p className="font-bold text-xl mt-3">{order.price}</p>
+
+                      <span className="inline-block mt-3 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                        Delivered
+                      </span>
+                    </div>
                   </div>
 
-                  <div>
-                    <h3 className="text-xl font-bold">{order.name}</h3>
-
-                    <p className="text-gray-500 text-sm">
-                      Order #{order.orderId}
-                    </p>
-
-                    <p className="text-gray-500 text-sm mt-1">
-                      Delivered {order.delivered}
-                    </p>
-
-                    <p className="font-bold text-xl mt-3">{order.price}</p>
-
-                    <span className="inline-block mt-3 bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
-                      Delivered
-                    </span>
-                  </div>
+                  <button
+                    onClick={() => navigate("/return")}
+                    className="bg-[#FF9900] text-black font-semibold px-6 py-3 rounded-lg hover:bg-[#e88a00]"
+                  >
+                    Return Item
+                  </button>
                 </div>
-
-                <button
-                  onClick={() => navigate("/return")}
-                  className="bg-[#FF9900] text-black font-semibold px-6 py-3 rounded-lg hover:bg-[#e88a00]"
-                >
-                  Return Item
-                </button>
               </div>
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
 
@@ -155,7 +200,7 @@ export default function Home() {
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <Package size={32} className="text-[#FF9900] mb-4" />
 
-            <h3 className="text-4xl font-bold">12</h3>
+            <h3 className="text-4xl font-bold">{sustainability.totalReturns}</h3>
 
             <p className="text-gray-500 mt-2">Products Returned</p>
           </div>
@@ -163,7 +208,7 @@ export default function Home() {
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <Award size={32} className="text-[#FF9900] mb-4" />
 
-            <h3 className="text-4xl font-bold">540</h3>
+            <h3 className="text-4xl font-bold">{sustainability.totalCredits}</h3>
 
             <p className="text-gray-500 mt-2">Credits Earned</p>
           </div>
@@ -171,7 +216,7 @@ export default function Home() {
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <Leaf size={32} className="text-[#FF9900] mb-4" />
 
-            <h3 className="text-4xl font-bold">48kg</h3>
+            <h3 className="text-4xl font-bold">{sustainability.totalCO2}kg</h3>
 
             <p className="text-gray-500 mt-2">CO₂ Saved</p>
           </div>

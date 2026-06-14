@@ -15,7 +15,7 @@ dotenv.config();
 connectDB();
 
 const app = express();
-
+app.use(require("cors")())
 app.use(express.json());
 
 app.use("/api/returns", returnRoutes);
