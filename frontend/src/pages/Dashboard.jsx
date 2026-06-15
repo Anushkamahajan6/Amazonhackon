@@ -87,7 +87,7 @@ export default function Dashboard() {
 
         // ── Recent Returns — real data from backend ─────────────────────────
         setRecentReturns(
-          Array.isArray(recentRes.data) ? recentRes.data : []
+          Array.isArray(recentRes.data) ? recentRes.data.slice(0, 5) : []
         );
 
         setTrustScores(
