@@ -135,7 +135,7 @@ export default function Returns() {
             <div className="space-y-5">
               <div className="mb-5">
                 <img
-                  src="https://via.placeholder.com/350x180"
+                  src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500"
                   alt="product"
                   className="rounded-lg w-full h-40 object-cover"
                 />

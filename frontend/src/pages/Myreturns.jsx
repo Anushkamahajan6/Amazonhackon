@@ -1,3 +1,4 @@
+
 import {
   Clock,
   CheckCircle,
@@ -5,10 +6,8 @@ import {
   Award,
   PackageCheck
 } from "lucide-react";
-
 import { useState, useEffect } from "react";
 import axios from "axios";
-
 
 const STATUS_BADGE = {
   Pending: (
@@ -41,77 +40,48 @@ const GRADE_COLOR = {
 };
 
 export default function MyReturns() {
-
   const [returns, setReturns] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
     const fetchReturns = async () => {
-
       try {
-        const response = await axios.get(
-          "/api/returns"
-        );
+        const response = await axios.get("/api/returns");
         setReturns(response.data);
-        console.log(response.data);
-      }
-      catch (error) {
-
+      } catch (error) {
         console.log(error);
-
-      }
-      finally {
-
+      } finally {
         setLoading(false);
-
       }
-
     };
 
     fetchReturns();
-
   }, []);
 
   return (
-
     <div className="min-h-screen bg-[#F2F3F3] p-8">
 
       {/* Header */}
-
       <div className="flex items-center gap-3 mb-2">
-
-        <PackageCheck
-          size={30}
-          className="text-[#FF9900]"
-        />
+        <PackageCheck size={30} className="text-[#FF9900]" />
 
         <h1 className="text-4xl font-bold text-[#131921]">
           My Returns
         </h1>
-
       </div>
 
       <p className="text-gray-500 mb-8">
         Track your return requests and earned green credits.
       </p>
 
-      {/* Loading */}
-
       {loading && (
-
         <div className="text-center text-gray-500">
           Loading returns...
         </div>
-
       )}
 
-      {/* Empty */}
-
       {!loading && returns.length === 0 && (
-
         <div className="bg-white rounded-2xl shadow-sm p-10 text-center">
-
           <PackageCheck
             size={50}
             className="mx-auto text-gray-300 mb-4"
@@ -120,12 +90,8 @@ export default function MyReturns() {
           <p className="text-gray-500">
             No returns found.
           </p>
-
         </div>
-
       )}
-
-      {/* Cards */}
 
       <div className="space-y-6">
 
@@ -137,39 +103,64 @@ export default function MyReturns() {
           >
 
             {/* Top */}
-
             <div className="flex justify-between mb-5">
 
               <div className="flex gap-5">
 
-                {/* Image */}
+                {/* Product Icon */}
+                <div className="w-24 h-24 rounded-xl bg-gray-100 border flex items-center justify-center text-5xl">
 
-                <img
-                  src={item.image}
-                  alt=""
-                  className="w-24 h-24 rounded-xl object-cover border"
-                />
+                  {
+  item.itemId?.name?.includes("iPhone") ||
+  item.itemId?.name?.includes("Samsung")
+    ? "📱"
+
+    : item.itemId?.name?.includes("Laptop")
+    ? "💻"
+
+    : item.itemId?.name?.includes("Camera")
+    ? "📷"
+
+    : item.itemId?.name?.includes("Watch")
+    ? "⌚"
+
+    : item.itemId?.name?.includes("Headphones")
+    ? "🎧"
+
+    : item.itemId?.name?.includes("Nike") ||
+      item.itemId?.name?.includes("Adidas")
+    ? "👟"
+
+    : item.itemId?.name?.includes("Puma") ||
+      item.itemId?.name?.includes("T-Shirt")
+    ? "👕"
+
+    : item.itemId?.name?.includes("Jeans")
+    ? "👖"
+
+    : item.itemId?.name?.includes("Chair")
+    ? "🪑"
+
+    : item.itemId?.name?.includes("Table")
+    ? "🪵"
+
+    : "📦"
+}
+
+                </div>
 
                 <div>
 
                   <h2 className="text-xl font-bold text-[#131921]">
-
                     {item.itemId?.name}
-
                   </h2>
 
                   <p className="text-gray-400 text-sm mt-1">
-
-                    {new Date(
-                      item.createdAt
-                    ).toLocaleDateString("en-IN")}
-
+                    {new Date(item.createdAt).toLocaleDateString("en-IN")}
                   </p>
 
                   <p className="text-gray-500 mt-2">
-
                     Reason: {item.reason}
-
                   </p>
 
                 </div>
@@ -181,17 +172,11 @@ export default function MyReturns() {
             </div>
 
             {/* Bottom */}
-
             <div className="grid grid-cols-4 gap-4">
 
-              {/* Grade */}
-
               <div className="bg-gray-50 rounded-xl p-4">
-
                 <p className="text-xs uppercase text-gray-500 mb-2">
-
                   Grade
-
                 </p>
 
                 <h2
@@ -199,70 +184,45 @@ export default function MyReturns() {
                 >
                   Grade {item.conditionGrade}
                 </h2>
-
               </div>
 
-              {/* Action */}
-
               <div className="bg-gray-50 rounded-xl p-4">
-
                 <p className="text-xs uppercase text-gray-500 mb-2">
-
                   Disposition
-
                 </p>
 
                 <h2 className="font-bold">
-
                   {item.disposition}
-
                 </h2>
-
               </div>
-
-              {/* Credits */}
 
               <div className="bg-gray-50 rounded-xl p-4">
 
                 <div className="flex items-center gap-2 mb-2">
-
                   <Award
                     size={16}
                     className="text-[#FF9900]"
                   />
 
                   <span className="text-xs uppercase text-gray-500">
-
                     Credits
-
                   </span>
-
                 </div>
 
                 <h2 className="font-bold text-[#FF9900]">
-
                   {item.creditsEarned}
-
                 </h2>
 
               </div>
 
-              {/* CO2 */}
-
               <div className="bg-gray-50 rounded-xl p-4">
-
                 <p className="text-xs uppercase text-gray-500 mb-2">
-
                   CO₂ Saved
-
                 </p>
 
                 <h2 className="font-bold text-green-600">
-
                   {item.co2Saved} kg
-
                 </h2>
-
               </div>
 
             </div>
@@ -274,7 +234,6 @@ export default function MyReturns() {
       </div>
 
     </div>
-
   );
-
 }
+
