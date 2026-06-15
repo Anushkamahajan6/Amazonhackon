@@ -57,15 +57,29 @@ export default function Orders() {
 
   return (
     <div className="min-h-screen bg-[#F2F3F3] p-8">
+{/* Header */}
+<div className="flex items-center justify-between mb-8">
 
-      {/* Header */}
-      <div className="flex items-center gap-3 mb-1">
-        <ShoppingBag size={28} className="text-[#FF9900]" />
-        <h1 className="text-4xl font-bold text-[#131921]">My Orders</h1>
-      </div>
-      <p className="text-gray-500 text-sm mb-6">
-        View and manage your delivered orders. Click "Return Item" to start a return.
-      </p>
+  <div>
+
+    <h1 className="text-4xl font-bold text-[#131921]">
+      My Orders
+    </h1>
+
+    <p className="text-gray-500 mt-2">
+      View all your recent orders.
+    </p>
+
+  </div>
+
+  <button
+    onClick={() => navigate("/home")}
+    className="bg-[#FF9900] hover:bg-[#e68a00] text-black px-5 py-3 rounded-xl font-semibold shadow-sm"
+  >
+    ← Back to Home
+  </button>
+
+</div>
 
       {/* Search bar */}
       <div className="flex items-center bg-white rounded-xl shadow-sm px-4 py-3 mb-8 gap-3 max-w-md">

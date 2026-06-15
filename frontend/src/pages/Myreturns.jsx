@@ -7,6 +7,7 @@ import {
   PackageCheck
 } from "lucide-react";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const STATUS_BADGE = {
@@ -42,6 +43,7 @@ const GRADE_COLOR = {
 export default function MyReturns() {
   const [returns, setReturns] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchReturns = async () => {
@@ -62,17 +64,37 @@ export default function MyReturns() {
     <div className="min-h-screen bg-[#F2F3F3] p-8">
 
       {/* Header */}
-      <div className="flex items-center gap-3 mb-2">
-        <PackageCheck size={30} className="text-[#FF9900]" />
+<div className="flex items-center justify-between mb-8">
 
-        <h1 className="text-4xl font-bold text-[#131921]">
-          My Returns
-        </h1>
-      </div>
+  <div>
 
-      <p className="text-gray-500 mb-8">
-        Track your return requests and earned green credits.
-      </p>
+    <div className="flex items-center gap-3 mb-2">
+
+      <PackageCheck
+        size={30}
+        className="text-[#FF9900]"
+      />
+
+      <h1 className="text-4xl font-bold text-[#131921]">
+        My Returns
+      </h1>
+
+    </div>
+
+    <p className="text-gray-500">
+      Track your return requests and earned green credits.
+    </p>
+
+  </div>
+
+  <button
+    onClick={() => navigate("/home")}
+    className="bg-[#FF9900] hover:bg-[#e68a00] text-black px-5 py-3 rounded-xl font-semibold shadow-sm"
+  >
+    ← Back to Home
+  </button>
+
+</div>
 
       {loading && (
         <div className="text-center text-gray-500">
