@@ -2,7 +2,7 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+const API_BASE = import.meta.env.VITE_API_URL;
 export default function Login() {
   const navigate = useNavigate();
   const handleLogin = async () => {
