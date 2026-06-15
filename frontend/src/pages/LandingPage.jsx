@@ -31,7 +31,7 @@ export default function LandingPage() {
                     </button>
 
                     <button
-                        onClick={() => navigate("/")}
+                        onClick={() => navigate("/login")}
                         className="bg-[#FF9900] text-white px-5 py-2 rounded-lg"
                     >
                         Sign In
