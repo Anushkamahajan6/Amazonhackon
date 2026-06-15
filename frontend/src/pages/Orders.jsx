@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import { ShoppingBag, Search } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
 
 const EMOJI_MAP = {
   Electronics: "📱",
@@ -21,7 +20,7 @@ export default function Orders() {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const res = await axios.get(`${API_BASE}/api/marketplace`);
+        const res = await axios.get("/api/marketplace");
 
         const items = res.data.map((item) => ({
           _id: item._id,          // add this

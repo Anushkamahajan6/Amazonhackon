@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
-
 const EMOJI_MAP = {
   Electronics: "📱",
   Fashion: "👟",
@@ -27,9 +25,9 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const [itemsRes, chartsRes, analyticsRes] = await Promise.all([
-          axios.get(`${API_BASE}/api/marketplace`),
-          axios.get(`${API_BASE}/api/admin/analytics/charts`),
-          axios.get(`${API_BASE}/api/admin/analytics`),
+          axios.get("/api/marketplace"),
+          axios.get("/api/admin/analytics/charts"),
+          axios.get("/api/admin/analytics"),
         ]);
 
         const items = itemsRes.data.slice(0, 2).map((item, index) => ({

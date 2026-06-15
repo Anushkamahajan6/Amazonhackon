@@ -9,7 +9,6 @@ import {
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
 
 const STATUS_BADGE = {
   Pending: (
@@ -51,11 +50,9 @@ export default function MyReturns() {
     const fetchReturns = async () => {
 
       try {
-
         const response = await axios.get(
-          `${API_BASE}/api/returns`
+          "/api/returns"
         );
-
         setReturns(response.data);
         console.log(response.data);
       }

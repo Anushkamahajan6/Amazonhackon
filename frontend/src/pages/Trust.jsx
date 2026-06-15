@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { ShieldCheck, TrendingUp, AlertTriangle, CheckCircle } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
 
 const STATUS_CONFIG = {
   Verified: { label: "Verified", cls: "bg-green-100 text-green-700", icon: <CheckCircle size={12} className="inline mr-1" /> },
@@ -45,7 +44,7 @@ export default function Trust() {
     const fetchTrust = async () => {
       try {
         // Use the dedicated trust-scores endpoint — real DB data
-        const res = await axios.get(`${API_BASE}/api/admin/analytics/trust-scores`);
+        const res = await axios.get("/api/admin/analytics/trust-scores");
         const data = res.data;
 
         const enriched = data.map((s) => ({

@@ -2,7 +2,6 @@ import { signInWithPopup } from "firebase/auth";
 import { auth, provider } from "../firebase";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-const API_BASE = import.meta.env.VITE_API_URL;
 export default function Login() {
   const navigate = useNavigate();
   const handleLogin = async () => {
@@ -11,7 +10,7 @@ export default function Login() {
       console.log(result.user);
       const user = result.user;
       const response = await axios.post(
-        `${API_BASE}/api/users/login`,
+        "/api/users/login",
         {
           name: user.displayName,
           email: user.email
