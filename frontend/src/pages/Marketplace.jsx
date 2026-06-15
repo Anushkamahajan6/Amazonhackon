@@ -21,21 +21,14 @@ const Marketplace = () => {
         setProducts(response.data);
 
         const recommendationResponse = await axios.get(
-<<<<<<< Updated upstream
-          "/api/recommendations/6a2d28a6ab8b05d85457fc85"
-        );
-        setRecommendations(recommendationResponse.data);
+  "http://localhost:5000/api/recommendations/6a2d28a6ab8b05d85457fc85"
+);
 
-=======
-          "http://localhost:5000/api/recommendations/6a2d28a6ab8b05d85457fc85"
-        );
+setRecommendations(recommendationResponse.data);
 
-        setRecommendations(recommendationResponse.data);
-
->>>>>>> Stashed changes
-        setReason(
-          "Because you frequently return Electronics items, you may like these certified products."
-        );
+setReason(
+  "Because you frequently return Electronics items, you may like these certified products."
+);
       } catch (error) {
         console.log(error);
       }
@@ -145,35 +138,6 @@ const Marketplace = () => {
         {/* Recommended */}
         <div className="mb-16">
 
-<<<<<<< Updated upstream
-        {/* Recommended Section */}
-        <div
-          id="recommended"
-          className="mb-14"
-        >
-
-          <h2 className="text-3xl font-bold text-gray-800">
-            Recommended For You
-          </h2>
-
-          <p className="text-blue-600 mt-2 mb-6">
-            {reason}
-          </p>
-
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {recommendations?.map((product) => (
-
-              <ProductCard
-                key={product._id}
-                product={product}
-              />
-
-            ))}
-
-          </div>
-
-=======
           <h2 className="text-3xl font-bold text-gray-800 mb-2">
             🔥 AI Recommended Products
           </h2>
@@ -193,7 +157,6 @@ const Marketplace = () => {
 
           </div>
 
->>>>>>> Stashed changes
         </div>
 
         {/* Featured Products */}
