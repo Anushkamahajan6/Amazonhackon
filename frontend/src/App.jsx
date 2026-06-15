@@ -21,7 +21,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         {/* Customer Routes */}
-        <Route path="/" element={<Login />} />
+        <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/orders" element={<Orders />} />
         <Route path="/return" element={<ReturnRequest />} />
@@ -29,7 +29,7 @@ function App() {
         <Route path="/result" element={<Result />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/my-returns" element={<MyReturns />} />
-        <Route path="/landing" element={<LandingPage />} />
+        <Route path="/" element={<LandingPage />} />
         {/* Admin Routes */}
         <Route
           element={
