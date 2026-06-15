@@ -18,17 +18,18 @@ const Marketplace = () => {
         const response = await axios.get(
           "/api/marketplace"
         );
-        setProducts(response.data);
+        setProducts(
+          Array.isArray(response.data)
+            ? response.data
+            : []
+        );
 
-        const recommendationResponse = await axios.get(
-  "http://localhost:5000/api/recommendations/6a2d28a6ab8b05d85457fc85"
-);
 
-setRecommendations(recommendationResponse.data);
 
-setReason(
-  "Because you frequently return Electronics items, you may like these certified products."
-);
+
+        setReason(
+          "Because you frequently return Electronics items, you may like these certified products."
+        );
       } catch (error) {
         console.log(error);
       }
@@ -148,12 +149,13 @@ setReason(
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
 
-            {recommendations?.map((product) => (
-              <ProductCard
-                key={product._id}
-                product={product}
-              />
-            ))}
+            {Array.isArray(recommendations) &&
+              recommendations.map((product) => (
+                <ProductCard
+                  key={product._id}
+                  product={product}
+                />
+              ))}
 
           </div>
 
