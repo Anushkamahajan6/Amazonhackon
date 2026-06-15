@@ -107,20 +107,27 @@ export default function Home() {
           </p>
 
           <div className="flex gap-3">
-            <button
-              onClick={() => navigate("/orders")}
-              className="bg-[#FF9900] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#e88a00]"
-            >
-              View All Orders
-            </button>
+  <button
+    onClick={() => navigate("/orders")}
+    className="bg-[#FF9900] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#e88a00]"
+  >
+    View All Orders
+  </button>
 
-            <button
-              onClick={() => navigate("/my-returns")}
-              className="bg-[#FF9900] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#e88a00]"
-            >
-              My Returns
-            </button>
-          </div>
+  <button
+    onClick={() => navigate("/my-returns")}
+    className="bg-[#FF9900] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#e88a00]"
+  >
+    My Returns
+  </button>
+
+  <button
+    onClick={() => navigate("/marketplace")}
+    className="bg-[#FF9900] text-black px-4 py-2 rounded-lg font-semibold hover:bg-[#e88a00]"
+  >
+    Marketplace
+  </button>
+</div>
         </div>
       </div>
 
