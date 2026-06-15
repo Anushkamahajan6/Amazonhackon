@@ -3,8 +3,6 @@ import { useState, useEffect } from "react";
 import { Edit } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
-
 export default function Returns() {
   const [showOverride, setShowOverride] = useState(false);
   const [overrideItem, setOverrideItem] = useState(null);
@@ -18,7 +16,7 @@ export default function Returns() {
     const fetchReturns = async () => {
       try {
         // Fetch real Return documents from the database
-        const res = await axios.get(`${API_BASE}/api/admin/analytics/recent-returns`);
+        const res = await axios.get("/api/admin/analytics/recent-returns");
 
         const CONDITION_SCORE = { A: 92, B: 74, C: 48 };
         const DAMAGE_MAP = {

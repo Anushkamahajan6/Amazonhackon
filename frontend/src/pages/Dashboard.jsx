@@ -3,7 +3,6 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE = import.meta.env.VITE_API_URL;
 
 const PIE_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -36,10 +35,10 @@ export default function Dashboard() {
     const fetchAll = async () => {
       try {
         const [analyticsRes, chartsRes, recentRes, trustRes] = await Promise.all([
-          axios.get(`${API_BASE}/api/admin/analytics`),
-          axios.get(`${API_BASE}/api/admin/analytics/charts`),
-          axios.get(`${API_BASE}/api/admin/analytics/recent-returns`),
-          axios.get(`${API_BASE}/api/admin/analytics/trust-scores`),
+          axios.get("/api/admin/analytics"),
+          axios.get("/api/admin/analytics/charts"),
+          axios.get("/api/admin/analytics/recent-returns"),
+          axios.get("/api/admin/analytics/trust-scores"),
         ]);
 
         const a = analyticsRes.data;
@@ -81,14 +80,19 @@ export default function Dashboard() {
           { name: "Refurbish", value: d.Refurbish || 0 },
           { name: "Recycle", value: d.Recycle || 0 },
         ].filter(item => item.value > 0);
-
+        console.log("recentRes", recentRes.data);
+        console.log("trustRes", trustRes.data);
+        console.log("chartsRes", chartsRes.data);
         setPieData(raw.length > 0 ? raw : [{ name: "No Returns Yet", value: 1 }]);
 
         // ── Recent Returns — real data from backend ─────────────────────────
-        setRecentReturns(recentRes.data || []);
+        setRecentReturns(
+          Array.isArray(recentRes.data) ? recentRes.data : []
+        );
 
-        // ── Trust Scores — real data from backend ───────────────────────────
-        setTrustScores(trustRes.data || []);
+        setTrustScores(
+          Array.isArray(trustRes.data) ? trustRes.data : []
+        );
 
       } catch (error) {
         console.error("Dashboard fetch error:", error);
