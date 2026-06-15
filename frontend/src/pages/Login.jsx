@@ -11,7 +11,7 @@ export default function Login() {
       console.log(result.user);
       const user = result.user;
       const response = await axios.post(
-        "${API_BASE}/api/users/login",
+        `${API_BASE}/api/users/login`,
         {
           name: user.displayName,
           email: user.email
