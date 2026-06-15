@@ -24,8 +24,13 @@ const Marketplace = () => {
             : []
         );
 
+        setProducts(response.data);
 
+        const recommendationResponse = await axios.get(
+          "http://localhost:5000/api/recommendations/6a2d28a6ab8b05d85457fc85"
+        );
 
+        setRecommendations(recommendationResponse.data);
 
         setReason(
           "Because you frequently return Electronics items, you may like these certified products."
@@ -139,23 +144,22 @@ const Marketplace = () => {
         {/* Recommended */}
         <div className="mb-16">
 
-          <h2 className="text-2xl font-bold text-[#131921] mb-2">
-            Recommended for You
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">
+            🔥 AI Recommended Products
           </h2>
 
           <p className="text-blue-600 mb-8">
             {reason}
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
 
-            {Array.isArray(recommendations) &&
-              recommendations.map((product) => (
-                <ProductCard
-                  key={product._id}
-                  product={product}
-                />
-              ))}
+            {recommendations?.map((product) => (
+              <ProductCard
+                key={product._id}
+                product={product}
+              />
+            ))}
 
           </div>
 
@@ -164,15 +168,15 @@ const Marketplace = () => {
         {/* Featured Products */}
         <div>
 
-          <h2 className="text-2xl font-bold text-[#131921]">
-            Featured Products
+          <h2 className="text-3xl font-bold text-gray-800">
+            ⭐ Featured Products
           </h2>
 
           <p className="text-gray-500 mb-8">
             Trending certified products selected for sustainability.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
 
             {filteredProducts.map((product) => (
               <ProductCard

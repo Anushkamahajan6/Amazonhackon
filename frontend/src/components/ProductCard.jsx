@@ -61,124 +61,126 @@ const ProductCard = ({ product }) => {
       )
       : 0;
 
-  return (
-    <div className="bg-white border border-gray-200 hover:border-[#FF9900] hover:shadow-lg transition-all duration-200 overflow-hidden h-full flex flex-col">
+return (
+  <div className="relative bg-white rounded-3xl border border-gray-100 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
 
-      {/* Discount Badge */}
-      <div className="absolute top-0 left-0 bg-red-500 text-white px-3 py-1 rounded-br-2xl text-xs font-bold z-10">
-        {discountPercent}% OFF
+    {/* Discount Badge */}
+    <div className="absolute top-0 left-0 bg-red-500 text-white px-3 py-1 rounded-br-2xl text-xs font-bold z-10">
+      {discountPercent}% OFF
+    </div>
+
+    {/* Image */}
+    <div className="h-40 bg-[#FAFAFA] flex justify-center items-center border-b p-3">
+
+      <img
+        src={imageMap[product.name]}
+        alt={product.name}
+        className="h-32 object-contain"
+        onError={(e) => {
+          e.target.src =
+            "https://via.placeholder.com/300x300?text=Product";
+        }}
+      />
+
+    </div>
+
+    {/* Content */}
+    <div className="p-4">
+
+      <h2 className="text-lg font-bold text-[#0F1111] h-12">
+        {product.name}
+      </h2>
+
+      <p className="text-gray-500 text-xs mt-1 line-clamp-2">
+        {product.description}
+      </p>
+
+      {/* Rating */}
+      <div className="flex items-center gap-2 mt-3">
+
+        <span className="bg-green-700 text-white px-2 py-1 rounded text-xs font-semibold">
+          ★ 4.8
+        </span>
+
+        <span className="text-gray-500 text-xs">
+          1,245 ratings
+        </span>
+
       </div>
 
-      {/* Image */}
-      <div className="h-56 bg-white flex justify-center items-center p-4">
-        <img
-          src={imageMap[product.name]}
-          alt={product.name}
-          className="h-48 object-contain hover:scale-105 transition"
-          onError={(e) => {
-            e.target.src =
-              "https://via.placeholder.com/300x300?text=Product";
-          }}
-        />
+      {/* Grade */}
+      <div className="mt-3">
 
-      </div>
-
-      {/* Content */}
-      <div className="p-4">
-
-        <h2 className="text-sm font-medium text-[#0F1111] h-10 overflow-hidden">
-          {product.name}
-        </h2>
-
-        <p className="text-gray-500 text-xs mt-1 line-clamp-2">
-          {product.description}
-        </p>
-
-        {/* Rating */}
-        <div className="flex items-center gap-2 mt-3">
-
-          <span className="text-[#FFA41C] text-sm">
-            ★★★★★
-          </span>
-
-          <span className="text-[#007185] text-xs hover:text-[#C7511F] cursor-pointer">
-            1,245 ratings
-          </span>
-
-        </div>
-
-        {/* Grade */}
-        <div className="mt-3">
-
-          <span
-            className={`px-3 py-1 rounded text-white text-xs font-semibold ${product.grade === "A"
+        <span
+          className={`px-3 py-1 rounded-full text-white text-xs font-semibold ${
+            product.grade === "A"
               ? "bg-green-500"
               : product.grade === "B"
-                ? "bg-yellow-500"
-                : "bg-red-500"
-              }`}
-          >
-            Grade {product.grade || "A"}
-          </span>
+              ? "bg-yellow-500"
+              : "bg-red-500"
+          }`}
+        >
+          Grade {product.grade || "A"}
+        </span>
 
-        </div>
+      </div>
 
-        {/* Badges */}
-        <div className="flex flex-wrap gap-1 mt-2">
+      {/* Badges */}
+      <div className="flex flex-wrap gap-2 mt-3">
 
-          <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-[9px] font-semibold">
-            ✓ Refurbished
-          </span>
+        <span className="bg-blue-100 text-blue-700 px-2 py-1 rounded text-[10px] font-semibold">
+          ✓ Refurbished
+        </span>
 
-          <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-[9px] font-semibold">
-            Trust 92
-          </span>
+        <span className="bg-green-100 text-green-700 px-2 py-1 rounded text-[10px] font-semibold">
+          Trust 92
+        </span>
 
-          <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-[9px] font-semibold">
-            🤖 AI Pick
-          </span>
+        <span className="bg-purple-100 text-purple-700 px-2 py-1 rounded text-[10px] font-semibold">
+          🤖 AI Pick
+        </span>
 
-          <span className="bg-[#00A8E1] text-white px-2 py-1 rounded text-[9px] font-semibold">
-            Prime
-          </span>
+        <span className="bg-[#00A8E1] text-white px-2 py-1 rounded text-[10px] font-semibold">
+          Prime
+        </span>
 
-        </div>
+      </div>
 
-        {/* Price */}
-        <div className="mt-4">
+      {/* Price */}
+      <div className="mt-4">
 
-          <span className="text-3xl font-normal text-[#0F1111]">
-            ₹{discountedPrice.toLocaleString()}
-          </span>
+        <span className="text-2xl font-bold text-[#B12704]">
+          ₹{discountedPrice.toLocaleString()}
+        </span>
 
-          <span className="ml-2 text-xs text-gray-500 line-through">
-            ₹{originalPrice.toLocaleString()}
-          </span>
+        <span className="ml-2 text-sm text-gray-500 line-through">
+          ₹{originalPrice.toLocaleString()}
+        </span>
 
-        </div>
+      </div>
 
-        {/* Savings */}
-        <div className="text-green-600 text-xs mt-1 font-medium">
-          Save ₹{(originalPrice - discountedPrice).toLocaleString()}
-        </div>
+      {/* Savings */}
+      <div className="text-green-600 text-xs mt-1 font-medium">
+        Save ₹{(originalPrice - discountedPrice).toLocaleString()}
+      </div>
 
-        {/* Buttons */}
-        <div className="mt-auto pt-4 space-y-2">
+      {/* Buttons */}
+      <div className="flex gap-2 mt-4">
 
-          <button className="w-full bg-[#FFD814] hover:bg-[#F7CA00] py-2 rounded-full text-sm">
-            Add to Cart
-          </button>
+        <button className="flex-1 bg-[#FFD814] hover:bg-[#F7CA00] py-2 rounded-full text-xs font-semibold transition">
+          Add to Cart
+        </button>
 
-          <button className="w-full bg-[#FFA41C] hover:bg-[#FA8900] py-2 rounded-full text-sm">
-            Buy Now
-          </button>
-
-        </div>
+        <button className="flex-1 bg-[#FFA41C] hover:bg-[#FA8900] py-2 rounded-full text-xs font-semibold transition">
+          Buy Now
+        </button>
 
       </div>
 
     </div>
-  );
+
+  </div>
+);
 };
 
 export default ProductCard;
