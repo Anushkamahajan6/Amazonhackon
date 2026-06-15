@@ -68,7 +68,7 @@ const handleSubmit = async () => {
     console.log("itemId =", order.id || order._id);
 
     const response = await axios.post(
-      "http://localhost:5000/api/returns",
+      "/api/returns",
       formData
     );
 

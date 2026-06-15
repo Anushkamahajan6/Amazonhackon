@@ -19,6 +19,7 @@ const ProductCard = ({ product }) => {
       "https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/air-max-270-shoes-KkLcGR.png",
 
     // "Adidas Sneakers":
+    //   "https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/7b3db6b9c2f84ecbbca9af0100d4c49c_9366/Grand_Court_2.0_Shoes_White_GW9195_01_standard.jpg",
 
     // "Levi's Jeans":
     //   "https://lsco.scene7.com/is/image/lsco/005013353-front?$regular_mobile$",
