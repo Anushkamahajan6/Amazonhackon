@@ -2,12 +2,12 @@ import { useState, useEffect } from "react";
 import { ShieldCheck, TrendingUp, AlertTriangle, CheckCircle } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const STATUS_CONFIG = {
-  Verified: { label: "Verified",  cls: "bg-green-100 text-green-700",  icon: <CheckCircle size={12} className="inline mr-1" /> },
-  Trusted:  { label: "Trusted",   cls: "bg-yellow-100 text-yellow-700", icon: <TrendingUp  size={12} className="inline mr-1" /> },
-  Monitor:  { label: "Monitor",   cls: "bg-red-100 text-red-700",      icon: <AlertTriangle size={12} className="inline mr-1" /> },
+  Verified: { label: "Verified", cls: "bg-green-100 text-green-700", icon: <CheckCircle size={12} className="inline mr-1" /> },
+  Trusted: { label: "Trusted", cls: "bg-yellow-100 text-yellow-700", icon: <TrendingUp size={12} className="inline mr-1" /> },
+  Monitor: { label: "Monitor", cls: "bg-red-100 text-red-700", icon: <AlertTriangle size={12} className="inline mr-1" /> },
 };
 
 const scoreColor = (score) => {
@@ -38,7 +38,7 @@ const getAccuracy = (greenCredits, returnCount) => {
 
 export default function Trust() {
   const [sellers, setSellers] = useState([]);
-  const [kpis,    setKpis]    = useState({ avgScore: 0, highRisk: 0, verified: 0 });
+  const [kpis, setKpis] = useState({ avgScore: 0, highRisk: 0, verified: 0 });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,15 +49,15 @@ export default function Trust() {
         const data = res.data;
 
         const enriched = data.map((s) => ({
-          id:          s.sellerId,
-          name:        s.sellerName,
-          score:       s.trustScore,
+          id: s.sellerId,
+          name: s.sellerName,
+          score: s.trustScore,
           greenCredits: s.greenCredits,
-          returnCount:  s.returnCount,
-          accuracy:    getAccuracy(s.greenCredits, s.returnCount),
+          returnCount: s.returnCount,
+          accuracy: getAccuracy(s.greenCredits, s.returnCount),
           // disputes = returns that needed Refurbish/Recycle (non-perfect)
-          disputes:    Math.max(0, s.returnCount - Math.round(s.returnCount * (s.trustScore / 100))),
-          status:      getStatus(s.trustScore),
+          disputes: Math.max(0, s.returnCount - Math.round(s.returnCount * (s.trustScore / 100))),
+          status: getStatus(s.trustScore),
         }));
 
         setSellers(enriched);

@@ -3,7 +3,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const PIE_COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042"];
 
@@ -14,9 +14,9 @@ const GRADE_COLOR = {
 };
 
 const DECISION_COLOR = {
-  Resell:    "bg-green-100 text-green-700",
+  Resell: "bg-green-100 text-green-700",
   Refurbish: "bg-yellow-100 text-yellow-700",
-  Recycle:   "bg-blue-100 text-blue-700",
+  Recycle: "bg-blue-100 text-blue-700",
 };
 
 const TRUST_COLOR = (score) => {
@@ -26,11 +26,11 @@ const TRUST_COLOR = (score) => {
 };
 
 export default function Dashboard() {
-  const [stats,         setStats]         = useState([]);
-  const [pieData,       setPieData]       = useState([]);
+  const [stats, setStats] = useState([]);
+  const [pieData, setPieData] = useState([]);
   const [recentReturns, setRecentReturns] = useState([]);
-  const [trustScores,   setTrustScores]   = useState([]);
-  const [loading,       setLoading]       = useState(true);
+  const [trustScores, setTrustScores] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -50,36 +50,36 @@ export default function Dashboard() {
           {
             title: "Returns Processed",
             value: (a.totalReturns || 0).toLocaleString(),
-            icon:  <Package size={24} />,
+            icon: <Package size={24} />,
           },
           {
             title: "Revenue Recovered",
             value: `₹${(a.revenueRecovered || 0).toLocaleString("en-IN")}`,
-            icon:  <IndianRupee size={24} />,
+            icon: <IndianRupee size={24} />,
           },
           {
             title: "Green Credits Issued",
             value: (a.totalCreditsIssued || 0).toLocaleString(),
-            icon:  <Award size={24} />,
+            icon: <Award size={24} />,
           },
           {
             title: "Pending Reviews",
             value: (a.pendingReviews || 0).toLocaleString(),
-            icon:  <Clock3 size={24} />,
+            icon: <Clock3 size={24} />,
           },
           {
             title: "CO₂ Saved",
             value: `${(a.totalCO2Saved || 0).toLocaleString()} kg`,
-            icon:  <Leaf size={24} />,
+            icon: <Leaf size={24} />,
           },
         ]);
 
         // ── Pie chart — real disposition breakdown ──────────────────────────
         const d = c.dispositionStats || {};
         const raw = [
-          { name: "Resell",    value: d.Resell    || 0 },
+          { name: "Resell", value: d.Resell || 0 },
           { name: "Refurbish", value: d.Refurbish || 0 },
-          { name: "Recycle",   value: d.Recycle   || 0 },
+          { name: "Recycle", value: d.Recycle || 0 },
         ].filter(item => item.value > 0);
 
         setPieData(raw.length > 0 ? raw : [{ name: "No Returns Yet", value: 1 }]);
@@ -113,26 +113,26 @@ export default function Dashboard() {
       <div className="grid grid-cols-5 gap-4 mb-8">
         {loading
           ? Array.from({ length: 5 }).map((_, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse h-24" />
-            ))
+            <div key={i} className="bg-white rounded-xl p-6 shadow-sm animate-pulse h-24" />
+          ))
           : stats.map((stat) => (
-              <div
-                key={stat.title}
-                className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition"
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <p className="text-gray-500 text-xs font-medium uppercase tracking-wide">
-                      {stat.title}
-                    </p>
-                    <h2 className="text-2xl font-bold text-[#131A22] mt-2">
-                      {stat.value}
-                    </h2>
-                  </div>
-                  <div className="text-[#FF9900] mt-1">{stat.icon}</div>
+            <div
+              key={stat.title}
+              className="bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition"
+            >
+              <div className="flex justify-between items-start">
+                <div>
+                  <p className="text-gray-500 text-xs font-medium uppercase tracking-wide">
+                    {stat.title}
+                  </p>
+                  <h2 className="text-2xl font-bold text-[#131A22] mt-2">
+                    {stat.value}
+                  </h2>
                 </div>
+                <div className="text-[#FF9900] mt-1">{stat.icon}</div>
               </div>
-            ))}
+            </div>
+          ))}
       </div>
 
       {/* ── Row 1: Disposition Breakdown (wide) | Recent Returns ──────────── */}

@@ -3,19 +3,19 @@ import { useState, useEffect } from "react";
 import { ShoppingBag, Search } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 const EMOJI_MAP = {
   Electronics: "📱",
-  Fashion:     "👟",
-  Furniture:   "🪑",
+  Fashion: "👟",
+  Furniture: "🪑",
 };
 
 export default function Orders() {
   const navigate = useNavigate();
 
-  const [orders,  setOrders]  = useState([]);
-  const [search,  setSearch]  = useState("");
+  const [orders, setOrders] = useState([]);
+  const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,20 +24,20 @@ export default function Orders() {
         const res = await axios.get(`${API_BASE}/api/marketplace`);
 
         const items = res.data.map((item) => ({
-  _id: item._id,          // add this
-  id: item._id,
-  name: item.name,
-  category: item.category,
-  orderId: item._id.slice(-8).toUpperCase(),
-  delivered: new Date(item.createdAt).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-  }),
-  price: `₹${item.originalPrice.toLocaleString("en-IN")}`,
-  image: EMOJI_MAP[item.category] || "📦",
-  description: item.description || "",
-}));
+          _id: item._id,          // add this
+          id: item._id,
+          name: item.name,
+          category: item.category,
+          orderId: item._id.slice(-8).toUpperCase(),
+          delivered: new Date(item.createdAt).toLocaleDateString("en-IN", {
+            day: "numeric",
+            month: "long",
+            year: "numeric",
+          }),
+          price: `₹${item.originalPrice.toLocaleString("en-IN")}`,
+          image: EMOJI_MAP[item.category] || "📦",
+          description: item.description || "",
+        }));
 
         setOrders(items);
       } catch (error) {
@@ -134,17 +134,17 @@ export default function Orders() {
               </div>
 
               <button
-  onClick={() => {
-    console.log("Sending order:", order);
+                onClick={() => {
+                  console.log("Sending order:", order);
 
-    navigate("/return", {
-      state: { order }
-    });
-  }}
-  className="bg-[#FF9900] hover:bg-[#e88a00] text-black px-5 py-3 rounded-xl font-semibold text-sm transition whitespace-nowrap"
->
-  Return Item
-</button>
+                  navigate("/return", {
+                    state: { order }
+                  });
+                }}
+                className="bg-[#FF9900] hover:bg-[#e88a00] text-black px-5 py-3 rounded-xl font-semibold text-sm transition whitespace-nowrap"
+              >
+                Return Item
+              </button>
 
             </div>
           ))

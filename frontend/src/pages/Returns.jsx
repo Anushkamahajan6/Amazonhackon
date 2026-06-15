@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Edit } from "lucide-react";
 import axios from "axios";
 
-const API_BASE = "http://localhost:5000";
+const API_BASE = import.meta.env.VITE_API_URL;
 
 export default function Returns() {
   const [showOverride, setShowOverride] = useState(false);
@@ -33,16 +33,16 @@ export default function Returns() {
         };
 
         const mapped = res.data.map((ret, index) => ({
-          id:             index,                           // positional index as key
-          product:        ret.product,                    // real name from Return.itemId
-          category:       ret.category || "Electronics",  // from populated item
-          grade:          ret.grade,                      // real conditionGrade from DB
+          id: index,                           // positional index as key
+          product: ret.product,                    // real name from Return.itemId
+          category: ret.category || "Electronics",  // from populated item
+          grade: ret.grade,                      // real conditionGrade from DB
           conditionScore: CONDITION_SCORE[ret.grade] ?? 70,
-          decision:       ret.decision,                   // real disposition from DB
-          credits:        ret.credits,                    // calculated by backend controller
-          damage:         DAMAGE_MAP[ret.grade]    ?? ["Condition details unavailable"],
+          decision: ret.decision,                   // real disposition from DB
+          credits: ret.credits,                    // calculated by backend controller
+          damage: DAMAGE_MAP[ret.grade] ?? ["Condition details unavailable"],
           overrideReason: "",
-          reasoning:      REASONING_MAP[ret.grade] ?? "Assessment based on condition grade.",
+          reasoning: REASONING_MAP[ret.grade] ?? "Assessment based on condition grade.",
         }));
 
         setReturnsData(mapped);
@@ -309,10 +309,10 @@ export default function Returns() {
                           returnsData.map((item) =>
                             item.id === overrideItem.id
                               ? {
-                                  ...item,
-                                  decision: newDecision,
-                                  overrideReason,
-                                }
+                                ...item,
+                                decision: newDecision,
+                                overrideReason,
+                              }
                               : item,
                           ),
                         );
